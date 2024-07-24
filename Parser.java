@@ -6,8 +6,6 @@ class Parser{
      * @param in the Calculation as String
      * @return the Calculation as ArrayList of Token
      */
-    // TODO: calc currently only uses the 1st elements to solve a function
-    // TOOD: mathematical rules like * and / first
     public ArrayList<Token> createTokenList(String in){
         in = in.trim();
         ArrayList<Token> tokens = new ArrayList<>();
