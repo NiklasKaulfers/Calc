@@ -14,13 +14,32 @@ public class Calc{
         double value1 = 0;
         Operator operator; 
         double value2 = 0;
-        int indexOfNextOperator = 1;
-        while (indexOfNextOperator > 0){
+        int indexOfNextOperator;
+        double result = 0;
+
+        while (tokens.size() >= 3){
             indexOfNextOperator = findNextMulOrDiv(tokens);
+            if (indexOfNextOperator == -1){
+                break;
+            }
+            value1 = Double.parseDouble(tokens.get(indexOfNextOperator - 1 ).getValue());
+            value2 = Double.parseDouble(tokens.get(indexOfNextOperator + 1).getValue());
+            operator = tokens.get(indexOfNextOperator).getOperation();
+            result = solve(value1, value2, operator);
+            tokens.set(indexOfNextOperator - 1, new Token(result + ""));
+            tokens.remove(indexOfNextOperator);
+            tokens.remove(indexOfNextOperator);
         }
-        // TODO: this is faulty and will be changed
-        double result = solve(value1, value2, Operator.PLUS);
-        return result;
+        while (tokens.size() >= 3){
+            value1 = Double.parseDouble(tokens.get(0).getValue());
+            value2 = Double.parseDouble(tokens.get(2).getValue());
+            operator = tokens.get(1).getOperation();
+            result = solve(value1, value2, operator);
+            tokens.set(0, new Token(result + ""));
+            tokens.remove(1);
+            tokens.remove(1);
+        }
+        return Double.parseDouble(tokens.getFirst().getValue());
     }
 
     /**
@@ -68,12 +87,12 @@ public class Calc{
     private int findNextMulOrDiv(ArrayList<Token> tokens){
         for (int i = 0; i < tokens.size(); i++){
             Token t = tokens.get(i);
-            if (t.isOperation() 
-            && (t.getOperation().equals(Operator.MULTIPLY)
-                || t.getOperation().equals(Operator.MUL)
-                || t.getOperation().equals(Operator.DIVIDE) )){
+            if (t.isOperation() ){
+                if (t.getOperation().equals(Operator.MULTIPLY)
+                || t.getOperation().equals(Operator.DIVIDE)){
                     return i;
-               }
+                }
+            }
         }
         return -1;
     }
