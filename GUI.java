@@ -21,6 +21,9 @@ public class GUI implements ActionListener{
     private String inputString, displayString;
 
 
+    /**
+     * creates the default version of the GUI and instantiates it
+     */
     public GUI(){
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -108,6 +111,9 @@ public class GUI implements ActionListener{
         frame.setVisible(true);
     }
 
+    /**
+     * action events for the buttons, also updates the inputs display on each input
+     */
     @Override
     public void actionPerformed(ActionEvent e){
         if (e.getSource() == num0){
