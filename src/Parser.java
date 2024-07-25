@@ -1,6 +1,9 @@
 package src;
 import java.util.ArrayList;
 
+/**
+ * transfroms the String into an ArrayList of Tokens for further useage
+ */
 class Parser{
     /**
      * function that transforms a String representing the calculation into a List of Tokens

@@ -61,9 +61,6 @@ public class Calc{
             case MULTIPLY:
                 result = y * x;
                 break;
-            case MUL:
-                result = y * x;
-                break;
             case DIVIDE:
                 if (y == 0){
                     result = 0;
