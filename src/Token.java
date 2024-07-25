@@ -1,8 +1,8 @@
 package src;
 public class Token{
-    String value;
-    boolean isOperation = false;
-    Operator op;
+    private String value;
+    private boolean isOperation = false;
+    private Operator op;
     public Token(String value){
         this.value = value;
         for (Operator o : Operator.values()){
@@ -18,5 +18,8 @@ public class Token{
     }
     public Operator getOperation(){
         return op;
+    }
+    public boolean isOperation(){
+        return isOperation;
     }
 }

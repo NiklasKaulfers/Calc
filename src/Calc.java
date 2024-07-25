@@ -1,7 +1,9 @@
 package src;
 import java.util.ArrayList;
 
-
+/**
+ * the calculator using the Tokens created earlier
+ */
 public class Calc{
     /**
      * calculates the result using an ArrayList of Tokens usually created by the Parser
@@ -12,19 +14,12 @@ public class Calc{
         double value1 = 0;
         Operator operator; 
         double value2 = 0;
-        if (Character.isDigit(tokens.get(0).getValue().charAt(0))){
-                value1 = Double.parseDouble(tokens.get(0).getValue());            
+        int indexOfNextOperator = 1;
+        while (indexOfNextOperator > 0){
+            indexOfNextOperator = findNextMulOrDiv(tokens);
         }
-        if (tokens.get(1).isOperation){
-            operator = tokens.get(1).getOperation();
-        } else {
-            System.err.println("Wrong operation");
-            throw new Error();
-        }
-        if (Character.isDigit(tokens.get(2).getValue().charAt(0))){
-            value2 = Double.parseDouble(tokens.get(2).getValue());
-        }
-        double result = solve(value1, value2, operator);
+        // TODO: this is faulty and will be changed
+        double result = solve(value1, value2, Operator.PLUS);
         return result;
     }
 
@@ -63,6 +58,24 @@ public class Calc{
         }
 
         return result;
+    }
+
+    /**
+     * finds the next multiplication or dividation operator
+     * @param tokens the tokens to iterate through
+     * @return index of next MUL or DIV
+     */
+    private int findNextMulOrDiv(ArrayList<Token> tokens){
+        for (int i = 0; i < tokens.size(); i++){
+            Token t = tokens.get(i);
+            if (t.isOperation() 
+            && (t.getOperation().equals(Operator.MULTIPLY)
+                || t.getOperation().equals(Operator.MUL)
+                || t.getOperation().equals(Operator.DIVIDE) )){
+                    return i;
+               }
+        }
+        return -1;
     }
 
 }
