@@ -1,7 +1,7 @@
 package src;
 import javax.swing.*;
 
-import java.awt.BorderLayout;
+
 import java.awt.GridLayout;
 import java.awt.event.*;
 
@@ -10,7 +10,9 @@ import java.awt.event.*;
  */
 
 public class GUI implements ActionListener{
-    private JButton plusSign, minusSign, multiplySign, divideSign, solveSign, clearButton;
+    private JButton clearButton;
+    private JButton plusSign, minusSign, multiplySign, divideSign, solveSign
+    , moduloSign, openBracket, closeBracket;
     private JButton num1, num2, num3, num4, num5, num6, num7, num8, num9, num0, dot;
     private JLabel display, inputs;
     private JFrame frame;
@@ -28,88 +30,70 @@ public class GUI implements ActionListener{
     public GUI(){
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainPanel = new JPanel();
+        mainPanel = new JPanel(new GridLayout(2,1));
     
         parser = new Parser();
         calc = new Calc();
         
-        outputPanel = new JPanel();
+        outputPanel = new JPanel(new GridLayout(2,1));
         displayString = "0";
         inputString = "";
         display = new JLabel(displayString);
-        inputs = new JLabel("0");
+        inputs = new JLabel("");
         outputPanel.add(inputs);
         outputPanel.add(display);
-        mainPanel.add(outputPanel, BorderLayout.NORTH);
+        mainPanel.add(outputPanel);
 
 
         buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(4,4));
-        num7 = new JButton("7");
-        num7.addActionListener(this);
-        buttonPanel.add(num7);
-        num8 = new JButton("8");
-        num8.addActionListener(this);
-        buttonPanel.add(num8);
-        num9 = new JButton("9");
-        num9.addActionListener(this);
-        buttonPanel.add(num9);
-        divideSign = new JButton("DIV");
-        divideSign.addActionListener(this);
-        buttonPanel.add(divideSign);
-        num4 = new JButton("4");
-        num4.addActionListener(this);
-        buttonPanel.add(num4);
-        num5 = new JButton("5");
-        num5.addActionListener(this);
-        buttonPanel.add(num5);
-        num6 = new JButton("6");
-        num6.addActionListener(this);
-        buttonPanel.add(num6);
-        multiplySign = new JButton("MUL");
-        multiplySign.addActionListener(this);
-        buttonPanel.add(multiplySign);
-        num1 = new JButton("1");
-        num1.addActionListener(this);
-        buttonPanel.add(num1);
-        num2 = new JButton("2");
-        num2.addActionListener(this);
-        buttonPanel.add(num2);
-        num3 = new JButton("3");
-        num3.addActionListener(this);
-        buttonPanel.add(num3);
-        minusSign = new JButton("MIN");
-        minusSign.addActionListener(this);
-        buttonPanel.add(minusSign);
-        dot = new JButton("DOT");
-        // TODO: function in parser and calc for this
-        dot.addActionListener(e -> {
+        buttonPanel.setLayout(new GridLayout(5,4));
 
-        });
-        buttonPanel.add(dot);
-        num0 = new JButton("0");
-        num0.addActionListener(this);
-        buttonPanel.add(num0);
+        addButton(buttonPanel, clearButton = new JButton("CE"));
+        addButton(buttonPanel, openBracket = new JButton("("));
+        addButton(buttonPanel, closeBracket = new JButton(")"));
+        addButton(buttonPanel, moduloSign = new JButton("%"));
+
+        addButton(buttonPanel, num7 = new JButton("7"));
+        addButton(buttonPanel, num8 = new JButton("8"));
+        addButton(buttonPanel, num9 = new JButton("9"));
+        addButton(buttonPanel, divideSign = new JButton("DIV"));
+        
+        addButton(buttonPanel, num4 = new JButton("4"));
+        addButton(buttonPanel, num5 = new JButton("5"));
+        addButton(buttonPanel, num6 = new JButton("6"));
+        addButton(buttonPanel, multiplySign = new JButton("MUL"));
+
+        addButton(buttonPanel, num1 = new JButton("1"));
+        addButton(buttonPanel, num2 = new JButton("2"));
+        addButton(buttonPanel, num3 = new JButton("3"));
+        addButton(buttonPanel, minusSign = new JButton("MIN"));
+        
+        addButton(buttonPanel, dot = new JButton("DOT"));
+        addButton(buttonPanel, num0 = new JButton("0"));
         solveSign = new JButton("=");
         solveSign.addActionListener(e -> {
             double res = calc.calculate(parser.createTokenList(inputString));
             display.setText(res + "");
         });
         buttonPanel.add(solveSign);
-        plusSign = new JButton("PLUS");
-        plusSign.addActionListener(this);
-        buttonPanel.add(plusSign);
-        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+        addButton(buttonPanel, plusSign = new JButton("PLUS"));
 
-        clearButton = new JButton("ce");
-        clearButton.addActionListener(this);
-        mainPanel.add(clearButton);
+        mainPanel.add(buttonPanel);
 
         frame.add(mainPanel);
 
-
         frame.pack();
         frame.setVisible(true);
+    }
+
+    /**
+     * quick function to add a button to a panel
+     * @param panel the panel to add to
+     * @param button the button that will be added
+     */
+    private void addButton(JPanel panel, JButton button){
+        button.addActionListener(this);
+        panel.add(button);
     }
 
     /**
@@ -161,6 +145,9 @@ public class GUI implements ActionListener{
         }
         if (e.getSource() == clearButton){
             inputString = "";
+        }
+        if (e.getSource() == dot){
+            inputString = inputString + ".";
         }
         inputs.setText(inputString);
     }
