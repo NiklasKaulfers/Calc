@@ -84,9 +84,9 @@ public class Calc{
      * @param tokens the tokens to iterate through
      * @return index of next MUL or DIV
      */
-    private int findNextHighPrioOperation(){
-        for (int i = 0; i < tokens.size(); i++){
-            Token t = tokens.get(i);
+    private int findNextHighPrioOperation(ArrayList<Token> tokenList){
+        for (int i = 0; i < tokenList.size(); i++){
+            Token t = tokenList.get(i);
             if (t.isOperation() ){
                 if (t.getOperation().equals(Operator.MULTIPLY)
                 || t.getOperation().equals(Operator.DIVIDE)
@@ -143,7 +143,7 @@ public class Calc{
         int indexOfNextOperator;
 
         while (tokensForCalcPart.size() >= 3){
-            indexOfNextOperator = findNextHighPrioOperation();
+            indexOfNextOperator = findNextHighPrioOperation(tokensForCalcPart);
             if (indexOfNextOperator == -1){
                 break;
             }
