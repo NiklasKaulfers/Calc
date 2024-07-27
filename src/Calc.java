@@ -81,7 +81,7 @@ public class Calc{
 
     /**
      * finds the next Operation with a higher priority than plus and minus
-     * @param tokens the tokens to iterate through
+     * @param tokenList the tokens to iterate through
      * @return index of next MUL or DIV
      */
     private int findNextHighPrioOperation(ArrayList<Token> tokenList){

@@ -1,4 +1,4 @@
-import src.GUI;
+import gui.GUI;
 
 /**
  * starts the Programm

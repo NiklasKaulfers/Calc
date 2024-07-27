@@ -1,6 +1,8 @@
-package src;
+package gui;
 import javax.swing.*;
 
+import src.Calc;
+import src.Parser;
 
 import java.awt.GridLayout;
 import java.awt.event.*;

@@ -11,12 +11,14 @@ public class Tests {
     public void testCalcWithBrackets1(){
         Calc c = new Calc();
         Parser p = new Parser();
-       // double result = c.calculate(p.createTokenList("(2+1)"));
-       // Assert.assertEquals(3, result, 0);
-        double result = c.calculate(p.createTokenList("12*(3+2*4)"));
+        double result = c.calculate(p.createTokenList("(2+1)"));
+        Assert.assertEquals(3, result, 0);
+        result = c.calculate(p.createTokenList("12*(3+2*4)"));
         Assert.assertEquals(132, result, 0);
         result = c.calculate(p.createTokenList("(3+2*4)*12"));
         Assert.assertEquals(132, result, 0);
+        result = c.calculate(p.createTokenList("(12-2+(27*128912*((12+12+(((12+12)))*2))+2)/2)*0"));
+        Assert.assertEquals(0, result, 0);
     }
     @Test 
     public void testBracketsSimple(){
@@ -30,25 +32,25 @@ public class Tests {
         Calc c = new Calc();
         Parser p = new Parser();
         double result = c.calculate(p.createTokenList("2+1"));
-        Assert.assertEquals(result, 3, 0);
+        Assert.assertEquals(3, result, 0);
     }
     @Test
     public void testAddWithFloatingPoint(){
         Calc c = new Calc();
         Parser p = new Parser();
         double result = c.calculate(p.createTokenList("0+0.1"));
-        Assert.assertEquals(result, 0.1, 0);
+        Assert.assertEquals(0.1, result, 0);
     }
     @Test
     public void subTest(){
         Calc c = new Calc();
         Parser p = new Parser();
         double result = c.calculate(p.createTokenList("0-1"));
-        Assert.assertEquals(result, -1, 0);
+        Assert.assertEquals(-1, result, 0);
         result = c.calculate(p.createTokenList("1-0"));
-        Assert.assertEquals(result, 1, 0);
+        Assert.assertEquals(1, result, 0);
         result = c.calculate(p.createTokenList("1000000000-1000000000"));
-        Assert.assertEquals(result, 0, 0);
+        Assert.assertEquals(0, result, 0);
     }
     @Test
     public void mulTest(){
