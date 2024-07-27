@@ -5,41 +5,36 @@ import java.util.ArrayList;
  * the calculator using the Tokens created earlier
  */
 public class Calc{
+    private ArrayList<Token> tokens;
     /**
      * calculates the result using an ArrayList of Tokens usually created by the Parser
      * @param tokens the Tokens 
      * @return the result based on user input
      */
+    // TODO: needs to throw errors and not pass 0
     public double calculate(ArrayList<Token> tokens){
-        double value1 = 0;
-        Operator operator; 
-        double value2 = 0;
-        int indexOfNextOperator;
-        double result = 0;
+        this.tokens = tokens;
 
-        while (tokens.size() >= 3){
-            indexOfNextOperator = findNextMulOrDiv(tokens);
-            if (indexOfNextOperator == -1){
-                break;
+        ArrayList<Token> partToSolve;
+        int amountBrackets = findBracketsAmount();
+        while (amountBrackets > 0){
+            partToSolve = new ArrayList<>();
+            int[] positions = findBrackets();
+            for (int i = 0; i < positions[1] - positions[0] - 1; i++){
+                partToSolve.add(tokens.get(positions[0] + i + 1));
             }
-            value1 = Double.parseDouble(tokens.get(indexOfNextOperator - 1 ).getValue());
-            value2 = Double.parseDouble(tokens.get(indexOfNextOperator + 1).getValue());
-            operator = tokens.get(indexOfNextOperator).getOperation();
-            result = solve(value1, value2, operator);
-            tokens.set(indexOfNextOperator - 1, new Token(result + ""));
-            tokens.remove(indexOfNextOperator);
-            tokens.remove(indexOfNextOperator);
+            Token partResult = calcPart(partToSolve);
+            for (int i = 0; i < positions[1] - positions[0] ; i++){
+                tokens.remove(positions[0]);                        
+            }
+            
+            tokens.set(positions[0], partResult);
+            amountBrackets -= 1;
         }
-        while (tokens.size() >= 3){
-            value1 = Double.parseDouble(tokens.get(0).getValue());
-            value2 = Double.parseDouble(tokens.get(2).getValue());
-            operator = tokens.get(1).getOperation();
-            result = solve(value1, value2, operator);
-            tokens.set(0, new Token(result + ""));
-            tokens.remove(1);
-            tokens.remove(1);
-        }
-        return Double.parseDouble(tokens.getFirst().getValue());
+
+        Token result = calcPart(tokens);
+        
+        return result.getParsedValue();
     }
 
     /**
@@ -63,30 +58,36 @@ public class Calc{
                 break;
             case DIVIDE:
                 if (y == 0){
-                    result = 0;
-                    System.err.println("No Division with 0");
+                    throw new Error("No division with 0.");
                 } else {
                     result = x / y;
+                }
+                break;
+            case MODULO:
+                if (y == 0){
+                    throw new Error("No divison with 0.");
+                } else {
+                    result = x % y;
                 }
                 break;
             default: 
                 result = 0;
         }
-
         return result;
     }
 
     /**
-     * finds the next multiplication or dividation operator
+     * finds the next Operation with a higher priority than plus and minus
      * @param tokens the tokens to iterate through
      * @return index of next MUL or DIV
      */
-    private int findNextMulOrDiv(ArrayList<Token> tokens){
+    private int findNextHighPrioOperation(){
         for (int i = 0; i < tokens.size(); i++){
             Token t = tokens.get(i);
             if (t.isOperation() ){
                 if (t.getOperation().equals(Operator.MULTIPLY)
-                || t.getOperation().equals(Operator.DIVIDE)){
+                || t.getOperation().equals(Operator.DIVIDE)
+                || t.getOperation().equals(Operator.MODULO)){
                     return i;
                 }
             }
@@ -94,4 +95,73 @@ public class Calc{
         return -1;
     }
 
+    private int findBracketsAmount(){
+        int amount = 0;
+        for (Token t: tokens){
+            if (t.getValue().equals("(")){
+                amount++;
+            }
+        }
+        return amount;
+    }
+
+    /**
+     * finds start and end of a bracket and solves that operation before anything else
+     * @return positions of the brackets
+     */
+    private int[] findBrackets(){
+        int[] positions = new int[2];
+        positions[0] = -1;
+        positions[1] = -1;
+        for (int i = 0; i < tokens.size(); i++){
+            if (tokens.get(i).getValue().equals("(")){
+                positions[0] = i;
+            }
+            if (tokens.get(i).getValue().equals(")")){
+                positions[1] = i;
+                return positions;
+            }
+        }
+        return positions;
+    }
+
+    /**
+     * helper function
+     * @param tokensForCalcPart a copy of the tokens, which doesnt use the original
+     * @return solved value
+     */
+    private Token calcPart(ArrayList<Token> tokensForCalcPart){
+        double value1 = 0;
+        Operator operator; 
+        double value2 = 0;
+        int indexOfNextOperator;
+        double result = 0;
+
+        while (tokensForCalcPart.size() >= 3){
+            indexOfNextOperator = findNextHighPrioOperation();
+            if (indexOfNextOperator == -1){
+                break;
+            }
+            value1 = Double.parseDouble(tokensForCalcPart.get(indexOfNextOperator - 1 ).getValue());
+            value2 = Double.parseDouble(tokensForCalcPart.get(indexOfNextOperator + 1).getValue());
+            operator = tokensForCalcPart.get(indexOfNextOperator).getOperation();
+            result = solve(value1, value2, operator);
+            tokensForCalcPart.set(indexOfNextOperator - 1, new Token(result + ""));
+            // removes it twice so everything used in this calculation gets removed except the result
+            tokensForCalcPart.remove(indexOfNextOperator);
+            tokensForCalcPart.remove(indexOfNextOperator);
+        }
+
+        while (tokensForCalcPart.size() >= 3){
+            value1 = Double.parseDouble(tokensForCalcPart.get(0).getValue());
+            value2 = Double.parseDouble(tokensForCalcPart.get(2).getValue());
+            operator = tokensForCalcPart.get(1).getOperation();
+            result = solve(value1, value2, operator);
+            // position 0 = result , position 1 & 2 get deleted
+            tokensForCalcPart.set(0, new Token(result + ""));
+            tokensForCalcPart.remove(1);
+            tokensForCalcPart.remove(1);
+        }
+        return tokensForCalcPart.getFirst();
+    }
 }

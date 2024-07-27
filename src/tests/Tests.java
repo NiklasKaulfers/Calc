@@ -13,6 +13,13 @@ public class Tests {
         double result = c.calculate(p.createTokenList("(2+1)"));
         Assert.assertEquals(result, 3, 0);
     }
+    @Test 
+    public void testBracketsSimple(){
+        Calc c = new Calc();
+        Parser p = new Parser();
+        double result = c.calculate(p.createTokenList("2*(2+3)"));
+        Assert.assertEquals(10, result, 0);
+    }
     @Test
     public void testAdd(){
         Calc c = new Calc();

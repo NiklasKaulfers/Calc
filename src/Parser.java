@@ -19,7 +19,9 @@ public class Parser{
                 tokens.add(new Token(in));
                 in = "";
             } else {
-                tokens.add(new Token(in.substring(0, indexOfNextOperator)));
+                if (!(in.substring(0, indexOfNextOperator).equals(""))){
+                    tokens.add(new Token(in.substring(0, indexOfNextOperator)));
+                }
                 tokens.add(new Token(in.substring(indexOfNextOperator, indexOfNextOperator+1)));
                 in = in.substring(indexOfNextOperator+1);         
             }           
