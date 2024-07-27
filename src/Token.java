@@ -20,6 +20,13 @@ public class Token{
             }
         }
     }
+    /**
+     * for creating a token out of a double value
+     * @param value the double value of the number
+     */
+    public Token(double value){
+        this.value = value + "";
+    }
     public String getValue(){
         return value;
     }

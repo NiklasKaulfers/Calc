@@ -6,12 +6,14 @@ import java.util.ArrayList;
  */
 public class Calc{
     private ArrayList<Token> tokens;
+
+    public static final String CALC_ERROR_MESSAGE_DIV_0 = "No division with 0.";
+
     /**
      * calculates the result using an ArrayList of Tokens usually created by the Parser
      * @param tokens the Tokens 
      * @return the result based on user input
      */
-    // TODO: needs to throw errors and not pass 0
     public double calculate(ArrayList<Token> tokens){
         this.tokens = tokens;
 
@@ -20,9 +22,10 @@ public class Calc{
         while (amountBrackets > 0){
             partToSolve = new ArrayList<>();
             int[] positions = findBrackets();
-            for (int i = 0; i < positions[1] - positions[0] - 1; i++){
+            for (int i = 0; i < positions[1] - positions[0] - 1; i++){  
                 partToSolve.add(tokens.get(positions[0] + i + 1));
             }
+            // TODO: causes a bug here ignoring point before line
             Token partResult = calcPart(partToSolve);
             for (int i = 0; i < positions[1] - positions[0] ; i++){
                 tokens.remove(positions[0]);                        
@@ -58,14 +61,14 @@ public class Calc{
                 break;
             case DIVIDE:
                 if (y == 0){
-                    throw new Error("No division with 0.");
+                    throw new Error(CALC_ERROR_MESSAGE_DIV_0);
                 } else {
                     result = x / y;
                 }
                 break;
             case MODULO:
                 if (y == 0){
-                    throw new Error("No divison with 0.");
+                    throw new Error(CALC_ERROR_MESSAGE_DIV_0);
                 } else {
                     result = x % y;
                 }
@@ -95,6 +98,10 @@ public class Calc{
         return -1;
     }
 
+    /**
+     * finds the amount of opened brackets
+     * @return amount
+     */
     private int findBracketsAmount(){
         int amount = 0;
         for (Token t: tokens){
@@ -131,11 +138,9 @@ public class Calc{
      * @return solved value
      */
     private Token calcPart(ArrayList<Token> tokensForCalcPart){
-        double value1 = 0;
+        double value1, value2, result = 0;
         Operator operator; 
-        double value2 = 0;
         int indexOfNextOperator;
-        double result = 0;
 
         while (tokensForCalcPart.size() >= 3){
             indexOfNextOperator = findNextHighPrioOperation();
@@ -158,7 +163,7 @@ public class Calc{
             operator = tokensForCalcPart.get(1).getOperation();
             result = solve(value1, value2, operator);
             // position 0 = result , position 1 & 2 get deleted
-            tokensForCalcPart.set(0, new Token(result + ""));
+            tokensForCalcPart.set(0, new Token(result));
             tokensForCalcPart.remove(1);
             tokensForCalcPart.remove(1);
         }

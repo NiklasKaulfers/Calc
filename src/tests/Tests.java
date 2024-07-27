@@ -5,13 +5,18 @@ import org.junit.*;
 import src.Calc;
 import src.Parser;
 
+// Assert.assertEquals(expected, actual, delta)
 public class Tests {
     @Test
     public void testCalcWithBrackets1(){
         Calc c = new Calc();
         Parser p = new Parser();
         double result = c.calculate(p.createTokenList("(2+1)"));
-        Assert.assertEquals(result, 3, 0);
+        Assert.assertEquals(3, result, 0);
+        result = c.calculate(p.createTokenList("12*(3+2*4)"));
+        Assert.assertEquals(132, result, 0);
+        result = c.calculate(p.createTokenList("(3+2*4)*12"));
+        Assert.assertEquals(132, result, 0);
     }
     @Test 
     public void testBracketsSimple(){
@@ -57,12 +62,17 @@ public class Tests {
         Assert.assertEquals(0.125, result, 0);
         result = c.calculate(p.createTokenList("1*1*1*1*1*1*1*1*1*1*1*1*1*1*0"));
         Assert.assertEquals(0, result, 0);
+        result = c.calculate(p.createTokenList("3+2*4"));
+        Assert.assertEquals(11, result, 0);
     }
     @Test
     public void divTest(){
         Calc c = new Calc();
         Parser p = new Parser();
-        double result = c.calculate(p.createTokenList("12/20/0"));
-        Assert.assertEquals(0, result, 0);
+        try {
+            c.calculate(p.createTokenList("12/20/0"));
+        } catch (Error e){
+            Assert.assertEquals(Calc.CALC_ERROR_MESSAGE_DIV_0, e.getMessage());
+        }
     }
 }

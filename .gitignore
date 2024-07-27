@@ -1,5 +1,2 @@
 #ignore class files
 *.class
-
-# a test file
-ReturnTyp.java
