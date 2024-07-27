@@ -25,7 +25,6 @@ public class Calc{
             for (int i = 0; i < positions[1] - positions[0] - 1; i++){  
                 partToSolve.add(tokens.get(positions[0] + i + 1));
             }
-            // TODO: causes a bug here ignoring point before line
             Token partResult = calcPart(partToSolve);
             for (int i = 0; i < positions[1] - positions[0] ; i++){
                 tokens.remove(positions[0]);                        
@@ -105,9 +104,9 @@ public class Calc{
     private int findBracketsAmount(){
         int amount = 0;
         for (Token t: tokens){
-            if (t.getValue().equals("(")){
+            if (t.isOperation() 
+            && t.getOperation().equals(Operator.OPEN_BRACKET))
                 amount++;
-            }
         }
         return amount;
     }

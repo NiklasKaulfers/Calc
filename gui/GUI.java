@@ -15,14 +15,15 @@ public class GUI implements ActionListener{
     private JButton plusSign, minusSign, multiplySign, divideSign, solveSign
     , moduloSign, openBracket, closeBracket;
     private JButton num1, num2, num3, num4, num5, num6, num7, num8, num9, num0, dot;
-    private JLabel display, inputs;
+    private JLabel display;
+    private JTextField inputs;
     private JFrame frame;
     private JPanel buttonPanel, outputPanel, mainPanel;
 
     private Parser parser;
     private Calc calc;
 
-    private String inputString, displayString;
+    private String displayString;
 
 
     /**
@@ -38,9 +39,12 @@ public class GUI implements ActionListener{
         
         outputPanel = new JPanel(new GridLayout(2,1));
         displayString = "0";
-        inputString = "";
         display = new JLabel(displayString);
-        inputs = new JLabel("");
+        inputs = new JTextField("");
+        inputs.addActionListener(e -> {
+            double res = calc.calculate(parser.createTokenList(inputs.getText()));
+            display.setText(res + "");
+        });
         outputPanel.add(inputs);
         outputPanel.add(display);
         mainPanel.add(outputPanel);
@@ -72,7 +76,7 @@ public class GUI implements ActionListener{
         addButton(buttonPanel, num0 = new JButton("0"));
         solveSign = new JButton("=");
         solveSign.addActionListener(e -> {
-            double res = calc.calculate(parser.createTokenList(inputString));
+            double res = calc.calculate(parser.createTokenList(inputs.getText()));
             display.setText(res + "");
         });
         buttonPanel.add(solveSign);
@@ -102,65 +106,62 @@ public class GUI implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e){
         if (e.getSource() == num0){
-            inputString += "0";
+            inputs.setText(inputs.getText() + "0");
         }
         if (e.getSource() == num1){
-            inputString += "1";
+            inputs.setText(inputs.getText() + "1");
         }
         if (e.getSource() == num2){
-            inputString += "2";
+            inputs.setText(inputs.getText() + "2");
         }
         if (e.getSource() == num3){
-            inputString += "3";
+            inputs.setText(inputs.getText() + "3");
         }
         if (e.getSource() == num4){
-            inputString += "4";
+            inputs.setText(inputs.getText() + "4");
         }
         if (e.getSource() == num5){
-            inputString += "5";
+            inputs.setText(inputs.getText() + "5");
         }
         if (e.getSource() == num6){
-            inputString += "6";
+            inputs.setText(inputs.getText() + "6");
         }
         if (e.getSource() == num7){
-            inputString += "7";
+            inputs.setText(inputs.getText() + "7");
         }
         if (e.getSource() == num8){
-            inputString += "8";
+            inputs.setText(inputs.getText() + "8");
         }
         if (e.getSource() == num9){
-            inputString += "9";
+            inputs.setText(inputs.getText() + "9");
         }
         if (e.getSource() == dot){
-            inputString += ".";
+            inputs.setText(inputs.getText() + ".");
         }
         if (e.getSource() == multiplySign){
-            inputString += "*";
+            inputs.setText(inputs.getText() + "*");
         }
         if (e.getSource() == divideSign){
-            inputString += "/";
+            inputs.setText(inputs.getText() + "/");
         }
         if (e.getSource() == plusSign){
-            inputString += "+";
+            inputs.setText(inputs.getText() + "+");
         }
         if (e.getSource() == minusSign){
-            inputString += "-";
+            inputs.setText(inputs.getText() + "-");
         }
         if (e.getSource() == moduloSign){
-            inputString += "%";
+            inputs.setText(inputs.getText() + "%");
         }
         if (e.getSource() == openBracket){
-            inputString += "(";
+            inputs.setText(inputs.getText() + "(");
         }
         if (e.getSource() == closeBracket){
-            inputString += ")";
+            inputs.setText(inputs.getText() + ")");
         }
         // clears inputString
         if (e.getSource() == clearButton){
-            inputString = "";
+            inputs.setText("");
         }
-
-
-        inputs.setText(inputString);
     }
 }
