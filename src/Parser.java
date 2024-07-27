@@ -4,7 +4,7 @@ import java.util.ArrayList;
 /**
  * transfroms the String into an ArrayList of Tokens for further useage
  */
-class Parser{
+public class Parser{
     /**
      * function that transforms a String representing the calculation into a List of Tokens
      * @param in the Calculation as String
@@ -22,8 +22,7 @@ class Parser{
                 tokens.add(new Token(in.substring(0, indexOfNextOperator)));
                 tokens.add(new Token(in.substring(indexOfNextOperator, indexOfNextOperator+1)));
                 in = in.substring(indexOfNextOperator+1);         
-            }
-            
+            }           
         }
         return tokens;
     }

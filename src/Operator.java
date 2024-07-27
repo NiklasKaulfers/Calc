@@ -1,4 +1,9 @@
 package src;
+
+/**
+ * enum storing all the Operators useable in the Calc
+ * allows to differenciate inbetween numbers and operations
+ */
 public enum Operator{
     /**
      * the plus operator
@@ -15,7 +20,19 @@ public enum Operator{
     /**
      * the division operator
      */
-    DIVIDE("/", '/');
+    DIVIDE("/", '/'),
+    /**
+     * opens a bracket
+     */
+    OPEN_BRACKET("(", '('),
+    /**
+     * closes a bracket
+     */
+    CLOSE_BRACKET(")", ')'),
+    /**
+     * the modulo operator
+     */
+    MODULO("%",'%');
     private String operation;
     private char operationAsChar;
     /**

@@ -8,7 +8,6 @@ import java.awt.event.*;
 /**
  * builds the User Interface 
  */
-
 public class GUI implements ActionListener{
     private JButton clearButton;
     private JButton plusSign, minusSign, multiplySign, divideSign, solveSign
@@ -43,7 +42,6 @@ public class GUI implements ActionListener{
         outputPanel.add(inputs);
         outputPanel.add(display);
         mainPanel.add(outputPanel);
-
 
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(5,4));
@@ -102,54 +100,65 @@ public class GUI implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e){
         if (e.getSource() == num0){
-            inputString = inputString + "0";
+            inputString += "0";
         }
         if (e.getSource() == num1){
-            inputString = inputString + "1";
+            inputString += "1";
         }
         if (e.getSource() == num2){
-            inputString = inputString + "2";
+            inputString += "2";
         }
         if (e.getSource() == num3){
-            inputString = inputString + "3";
+            inputString += "3";
         }
         if (e.getSource() == num4){
-            inputString = inputString + "4";
+            inputString += "4";
         }
         if (e.getSource() == num5){
-            inputString = inputString + "5";
+            inputString += "5";
         }
         if (e.getSource() == num6){
-            inputString = inputString + "6";
+            inputString += "6";
         }
         if (e.getSource() == num7){
-            inputString = inputString + "7";
+            inputString += "7";
         }
         if (e.getSource() == num8){
-            inputString = inputString + "8";
+            inputString += "8";
         }
         if (e.getSource() == num9){
-            inputString = inputString + "9";
+            inputString += "9";
+        }
+        if (e.getSource() == dot){
+            inputString += ".";
         }
         if (e.getSource() == multiplySign){
-            inputString = inputString + "*";
+            inputString += "*";
         }
         if (e.getSource() == divideSign){
-            inputString = inputString + "/";
+            inputString += "/";
         }
         if (e.getSource() == plusSign){
-            inputString = inputString + "+";
+            inputString += "+";
         }
         if (e.getSource() == minusSign){
-            inputString = inputString + "-";
+            inputString += "-";
         }
+        if (e.getSource() == moduloSign){
+            inputString += "%";
+        }
+        if (e.getSource() == openBracket){
+            inputString += "(";
+        }
+        if (e.getSource() == closeBracket){
+            inputString += ")";
+        }
+        // clears inputString
         if (e.getSource() == clearButton){
             inputString = "";
         }
-        if (e.getSource() == dot){
-            inputString = inputString + ".";
-        }
+
+
         inputs.setText(inputString);
     }
-
 }
