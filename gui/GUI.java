@@ -41,10 +41,7 @@ public class GUI implements ActionListener{
         displayString = "0";
         display = new JLabel(displayString);
         inputs = new JTextField("");
-        inputs.addActionListener(e -> {
-            double res = calc.calculate(parser.createTokenList(inputs.getText()));
-            display.setText(res + "");
-        });
+        inputs.addActionListener(new SolveActionListener());
         outputPanel.add(inputs);
         outputPanel.add(display);
         mainPanel.add(outputPanel);
@@ -75,10 +72,7 @@ public class GUI implements ActionListener{
         addButton(buttonPanel, dot = new JButton("DOT"));
         addButton(buttonPanel, num0 = new JButton("0"));
         solveSign = new JButton("=");
-        solveSign.addActionListener(e -> {
-            double res = calc.calculate(parser.createTokenList(inputs.getText()));
-            display.setText(res + "");
-        });
+        solveSign.addActionListener(new SolveActionListener());
         buttonPanel.add(solveSign);
         addButton(buttonPanel, plusSign = new JButton("PLUS"));
 
@@ -163,5 +157,16 @@ public class GUI implements ActionListener{
         if (e.getSource() == clearButton){
             inputs.setText("");
         }
+    }
+    /**
+     * class that handles the ActionEvent when a calc.calculate call has to be done
+     */
+    private class SolveActionListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            double res = calc.calculate(parser.createTokenList(inputs.getText()));
+            display.setText(res + "");
+        }
+        
     }
 }
