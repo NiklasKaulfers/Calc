@@ -1,9 +1,12 @@
 package src.tests;
 import org.junit.*;
 
+import java.util.ArrayList;
+
 
 import src.Calc;
 import src.Parser;
+import src.Token;
 
 // Assert.assertEquals(expected, actual, delta)
 public class Tests {
@@ -19,6 +22,18 @@ public class Tests {
         Assert.assertEquals(132, result, 0);
         result = c.calculate(p.createTokenList("(12-2+(27*128912*((12+12+(((12+12)))*2))+2)/2)*0"));
         Assert.assertEquals(0, result, 0);
+    }
+    @Test
+    public void testParser(){
+        Parser p = new Parser();
+        ArrayList<Token> result = p.createTokenList("           2+2   ");
+        ArrayList<Token> expectedResult = new ArrayList<>();
+        expectedResult.add(new Token("2"));
+        expectedResult.add(new Token("+"));
+        expectedResult.add(new Token("2"));
+        for (int i = 0; i < expectedResult.size();i++){
+            Assert.assertEquals(expectedResult.get(i).getValue(), result.get(i).getValue());
+        }
     }
     @Test 
     public void testBracketsSimple(){
