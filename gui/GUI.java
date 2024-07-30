@@ -52,7 +52,7 @@ public class GUI implements ActionListener{
         addButton(buttonPanel, clearButton = new JButton("CE"));
         addButton(buttonPanel, openBracket = new JButton("("));
         addButton(buttonPanel, closeBracket = new JButton(")"));
-        addButton(buttonPanel, moduloSign = new JButton("%"));
+        addButton(buttonPanel, moduloSign = new JButton("MOD"));
 
         addButton(buttonPanel, num7 = new JButton("7"));
         addButton(buttonPanel, num8 = new JButton("8"));

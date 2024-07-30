@@ -33,8 +33,10 @@ public enum Operator{
      * the modulo operator
      */
     MODULO("%",'%');
+
     private String operation;
     private char operationAsChar;
+
     /**
      * constructs each operator
      * @param operation Symbol / Symbols representing the Operation
@@ -44,6 +46,7 @@ public enum Operator{
         this.operation = operation;
         this.operationAsChar = operationAsChar;
     }
+    
     /**
      * gets the operator as String
      * @return the operator as String
@@ -51,6 +54,7 @@ public enum Operator{
     public String getValue(){
         return operation;
     }
+
     /**
      * gets the operator as char
      * @return the operator as char

@@ -1,5 +1,2 @@
 #ignore class files
 *.class
-
-#future server
-src/ServerComm.java

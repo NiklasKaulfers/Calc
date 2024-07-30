@@ -11,7 +11,7 @@ public class Parser{
      * @return the Calculation as ArrayList of Token
      */
     public ArrayList<Token> createTokenList(String in){
-        in = in.trim();
+        in = in.replaceAll("\\s", "");
         ArrayList<Token> tokens = new ArrayList<>();
         while (in.length() > 0){
             int indexOfNextOperator = findNextOperator(in);
