@@ -1,10 +1,12 @@
 package src;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * transfroms the String into an ArrayList of Tokens for further useage
  */
 public class Parser{
+    public final static String ILLEGAL_ARGUMENT_IN_SCANNER = "IllegalArgument! Remove: ";
     /**
      * function that transforms a String representing the calculation into a List of Tokens
      * @param in the Calculation as String
@@ -12,6 +14,7 @@ public class Parser{
      */
     public ArrayList<Token> createTokenList(String in){
         in = in.replaceAll("\\s", "");
+        scanner(in);
         ArrayList<Token> tokens = new ArrayList<>();
         while (in.length() > 0){
             int indexOfNextOperator = findNextOperator(in);
@@ -47,5 +50,22 @@ public class Parser{
             }
         }
         return -1;
+    }
+
+    /**
+     * scans for input errors 
+     * @param in the string to be checked
+     * @throws IllegalArgumentException incase of illegal inputs
+     */
+    public void scanner(String in) throws IllegalArgumentException{
+        for (char c : in.toCharArray()){
+            if (Character.isDigit(c)
+            || Arrays.stream(Operator.values()).anyMatch(op -> op.getValueAsChar() == c)){
+                // nothing
+            } else {
+                throw new IllegalArgumentException(ILLEGAL_ARGUMENT_IN_SCANNER + c);
+            }
+                         
+        }
     }
 }

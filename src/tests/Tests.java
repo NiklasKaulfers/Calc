@@ -92,4 +92,13 @@ public class Tests {
             Assert.assertEquals(Calc.CALC_ERROR_MESSAGE_DIV_0, e.getMessage());
         }
     }
+    @Test 
+    public void inputErrorTests(){
+        Parser p = new Parser();
+        try {
+            p.createTokenList("19+2/as");
+        } catch (IllegalArgumentException e ){
+            Assert.assertEquals(Parser.ILLEGAL_ARGUMENT_IN_SCANNER + 'a', e.getMessage());
+        }
+    }
 }

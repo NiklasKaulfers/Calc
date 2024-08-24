@@ -164,9 +164,12 @@ public class GUI implements ActionListener{
     private class SolveActionListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            double res = calc.calculate(parser.createTokenList(inputs.getText()));
-            display.setText(res + "");
-        }
-        
+            try{
+                double res = calc.calculate(parser.createTokenList(inputs.getText()));
+                display.setText(res + "");
+            } catch (Error|IllegalArgumentException err){
+                display.setText(err.getMessage());
+            }
+        }   
     }
 }
