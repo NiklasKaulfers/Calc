@@ -60,6 +60,7 @@ public class Parser{
     public void scanner(String in) throws IllegalArgumentException{
         for (char c : in.toCharArray()){
             if (Character.isDigit(c)
+            || c == '.'
             || Arrays.stream(Operator.values()).anyMatch(op -> op.getValueAsChar() == c)){
                 // nothing
             } else {
