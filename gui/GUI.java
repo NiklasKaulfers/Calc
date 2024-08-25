@@ -26,9 +26,6 @@ public class GUI implements ActionListener{
     private Parser parser;
     private Calc calc;
 
-    private String displayString;
-
-
     /**
      * creates the default version of the GUI and instantiates it
      */
@@ -45,8 +42,7 @@ public class GUI implements ActionListener{
         lastCalculations.addActionListener(e -> {
             inputs.setText((String) lastCalculations.getSelectedItem());
         });
-        displayString = "0";
-        display = new JLabel(displayString);
+        display = new JLabel();
         inputs = new JTextField("");
         inputs.addActionListener(new SolveActionListener());
         outputPanel.add(lastCalculations);
