@@ -42,7 +42,6 @@ public class GUI implements ActionListener{
         
         outputPanel = new JPanel(new GridLayout(3,1));
         lastCalculations = new JComboBox<>();
-        lastCalculations.addItem("2+2");
         lastCalculations.addActionListener(e -> {
             inputs.setText((String) lastCalculations.getSelectedItem());
         });
@@ -91,6 +90,8 @@ public class GUI implements ActionListener{
 
         frame.pack();
         frame.setVisible(true);
+
+        inputs.requestFocus();
     }
 
     /**
@@ -189,7 +190,7 @@ public class GUI implements ActionListener{
      */
     private void removeFirstItemsInLastCalculation(){
         while (lastCalculations.getItemCount() > AMOUNT_ITEMS_STORED){
-            lastCalculations.removeItemAt(0);
+            lastCalculations.removeItemAt(AMOUNT_ITEMS_STORED);
         }
     }
 
@@ -200,15 +201,22 @@ public class GUI implements ActionListener{
     private void addCalculationToComboBox(String newCalc){
         for (int i = 0; i < lastCalculations.getItemCount(); i++){
             if (lastCalculations.getItemAt(i).toString().equals(newCalc)){
-                String previousItem = lastCalculations.getItemAt(
-                                        lastCalculations.getItemCount() - 1)
-                                        .toString();
-                lastCalculations.insertItemAt(newCalc, lastCalculations.getItemCount() - 1);
-                lastCalculations.insertItemAt(previousItem, i);
+                if (lastCalculations.getItemCount() > 1){
+                    String previousItem = lastCalculations.getItemAt(
+                                            0)
+                                            .toString();
+                    lastCalculations.removeItemAt(i);               
+                    lastCalculations.insertItemAt(previousItem, i);
+                    lastCalculations.insertItemAt(newCalc, 0);
+                    lastCalculations.removeItemAt(1);
+                    lastCalculations.setSelectedIndex(0);
+                }
+
                 return;
             }
         }
-        lastCalculations.addItem(newCalc);
+        lastCalculations.insertItemAt(newCalc, 0);
+        lastCalculations.setSelectedIndex(0);
         removeFirstItemsInLastCalculation();
     }
 }
