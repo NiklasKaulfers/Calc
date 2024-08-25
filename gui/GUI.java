@@ -176,8 +176,9 @@ public class GUI implements ActionListener{
         public void actionPerformed(ActionEvent e) {
             try{
                 double res = calc.calculate(parser.createTokenList(inputs.getText()));
-                display.setText(res + "");
+                display.setText("");
                 addCalculationToComboBox(inputs.getText());
+                inputs.setText(res + "");
             } catch (Error|IllegalArgumentException err){
                 display.setText(err.getMessage());
             }
