@@ -10,10 +10,12 @@ import src.Token;
 
 // Assert.assertEquals(expected, actual, delta)
 public class Tests {
+    Calc c;
+    Parser p;
     @Test
     public void testCalcWithBrackets1(){
-        Calc c = new Calc();
-        Parser p = new Parser();
+        c = new Calc();
+        p = new Parser();
         double result = c.calculate(p.createTokenList("(2+1)"));
         Assert.assertEquals(3, result, 0);
         result = c.calculate(p.createTokenList("12*(3+2*4)"));
@@ -25,7 +27,7 @@ public class Tests {
     }
     @Test
     public void testParser(){
-        Parser p = new Parser();
+        p = new Parser();
         ArrayList<Token> result = p.createTokenList("           2+2   ");
         ArrayList<Token> expectedResult = new ArrayList<>();
         expectedResult.add(new Token("2"));
@@ -37,15 +39,15 @@ public class Tests {
     }
     @Test 
     public void testBracketsSimple(){
-        Calc c = new Calc();
-        Parser p = new Parser();
+        c = new Calc();
+        p = new Parser();
         double result = c.calculate(p.createTokenList("2*(2+3)"));
         Assert.assertEquals(10, result, 0);
     }
     @Test
     public void testAdd(){
-        Calc c = new Calc();
-        Parser p = new Parser();
+        c = new Calc();
+        p = new Parser();
         double result = c.calculate(p.createTokenList("2+1"));
         Assert.assertEquals(3, result, 0);
     }
@@ -58,8 +60,8 @@ public class Tests {
     }
     @Test
     public void subTest(){
-        Calc c = new Calc();
-        Parser p = new Parser();
+        c = new Calc();
+        p = new Parser();
         double result = c.calculate(p.createTokenList("0-1"));
         Assert.assertEquals(-1, result, 0);
         result = c.calculate(p.createTokenList("1-0"));
@@ -69,8 +71,8 @@ public class Tests {
     }
     @Test
     public void mulTest(){
-        Calc c = new Calc();
-        Parser p = new Parser();
+        c = new Calc();
+        p = new Parser();
         double result = c.calculate(p.createTokenList("100*0"));
         Assert.assertEquals(0, result, 0);
         result = c.calculate(p.createTokenList("0*100"));
@@ -84,8 +86,8 @@ public class Tests {
     }
     @Test
     public void divTest(){
-        Calc c = new Calc();
-        Parser p = new Parser();
+        c = new Calc();
+        p = new Parser();
         try {
             c.calculate(p.createTokenList("12/20/0"));
         } catch (Error e){
@@ -94,7 +96,7 @@ public class Tests {
     }
     @Test 
     public void inputErrorTests(){
-        Parser p = new Parser();
+        p = new Parser();
         try {
             p.createTokenList("19+2/as");
         } catch (IllegalArgumentException e ){

@@ -11,6 +11,8 @@ import java.awt.event.*;
  * builds the User Interface 
  */
 public class GUI implements ActionListener{
+    public final static int AMOUNT_ITEMS_STORED = 20;
+
     private JButton clearButton;
     private JButton plusSign, minusSign, multiplySign, divideSign, solveSign
     , moduloSign, openBracket, closeBracket;
@@ -19,6 +21,7 @@ public class GUI implements ActionListener{
     private JTextField inputs;
     private JFrame frame;
     private JPanel buttonPanel, outputPanel, mainPanel;
+    private JComboBox<String> lastCalculations;
 
     private Parser parser;
     private Calc calc;
@@ -37,11 +40,17 @@ public class GUI implements ActionListener{
         parser = new Parser();
         calc = new Calc();
         
-        outputPanel = new JPanel(new GridLayout(2,1));
+        outputPanel = new JPanel(new GridLayout(3,1));
+        lastCalculations = new JComboBox<>();
+        lastCalculations.addItem("2+2");
+        lastCalculations.addActionListener(e -> {
+            inputs.setText((String) lastCalculations.getSelectedItem());
+        });
         displayString = "0";
         display = new JLabel(displayString);
         inputs = new JTextField("");
         inputs.addActionListener(new SolveActionListener());
+        outputPanel.add(lastCalculations);
         outputPanel.add(inputs);
         outputPanel.add(display);
         mainPanel.add(outputPanel);
@@ -167,9 +176,39 @@ public class GUI implements ActionListener{
             try{
                 double res = calc.calculate(parser.createTokenList(inputs.getText()));
                 display.setText(res + "");
+                addCalculationToComboBox(inputs.getText());
             } catch (Error|IllegalArgumentException err){
                 display.setText(err.getMessage());
             }
         }   
+    }
+
+    /**
+     * removes the first items so that the stored amount doesnt get too big
+     * change the AMOUNT_ITEMS_STORED to change when items get removed
+     */
+    private void removeFirstItemsInLastCalculation(){
+        while (lastCalculations.getItemCount() > AMOUNT_ITEMS_STORED){
+            lastCalculations.removeItemAt(0);
+        }
+    }
+
+    /**
+     * adds a new Calculation to the already stored ones, makes sure there are no doubles
+     * @param newCalc the current input text
+     */
+    private void addCalculationToComboBox(String newCalc){
+        for (int i = 0; i < lastCalculations.getItemCount(); i++){
+            if (lastCalculations.getItemAt(i).toString().equals(newCalc)){
+                String previousItem = lastCalculations.getItemAt(
+                                        lastCalculations.getItemCount() - 1)
+                                        .toString();
+                lastCalculations.insertItemAt(newCalc, lastCalculations.getItemCount() - 1);
+                lastCalculations.insertItemAt(previousItem, i);
+                return;
+            }
+        }
+        lastCalculations.addItem(newCalc);
+        removeFirstItemsInLastCalculation();
     }
 }
